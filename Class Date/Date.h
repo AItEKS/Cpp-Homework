@@ -10,6 +10,7 @@ class Date
 public:
 	Date(int day, int month, int year);
 	Date(std::string date);
+	Date(int day, std::string month, int year);
 	~Date();
 
 	double JDate = 0;
