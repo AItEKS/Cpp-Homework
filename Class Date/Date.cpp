@@ -70,7 +70,7 @@ void Date::JDToDate(double JDate)
 
 std::string Date::weekDay()
 {
-    std::string daysOfweek[]{ "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
+    std::string daysOfweek[]{ "РџРѕРЅРµРґРµР»СЊРЅРёРє", "Р’С‚РѕСЂРЅРёРє", "РЎСЂРµРґР°", "Р§РµС‚РІРµСЂРі", "РџСЏС‚РЅРёС†Р°", "РЎСѓР±Р±РѕС‚Р°", "Р’РѕСЃРєСЂРµСЃРµРЅСЊРµ" };
     return daysOfweek[static_cast<int>(JDate + 0.5) % 7];
 }
 
@@ -87,10 +87,10 @@ void Date::splitDate(std::string date)
 void Date::checkDate(int day, int month, int year)
 {
     if (month > 12 || month < 1)
-        throw DateException("Ошибка! Месяц введен некорректно!");
+        throw DateException("РћС€РёР±РєР°! РњРµСЃСЏС† РІРІРµРґРµРЅ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ!");
 
     if (day < 1)
-        throw DateException("Ошибка! День введен некорректно!");
+        throw DateException("РћС€РёР±РєР°! Р”РµРЅСЊ РІРІРµРґРµРЅ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ!");
 
     int daysInMonth = 0;
     switch (month) {
@@ -104,11 +104,11 @@ void Date::checkDate(int day, int month, int year)
         daysInMonth = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28;
         break;
     default:
-        throw DateException("Ошибка! Некорректный месяц.");
+        throw DateException("РћС€РёР±РєР°! РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РјРµСЃСЏС†.");
     }
 
     if (day > daysInMonth)
-        throw DateException("Ошибка! Некорректное количество дней для выбранного месяца.");
+        throw DateException("РћС€РёР±РєР°! РќРµРєРѕСЂСЂРµРєС‚РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РґРЅРµР№ РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РјРµСЃСЏС†Р°.");
 }
 
 double Date::operator-(const Date& other)
