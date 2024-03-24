@@ -3,10 +3,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <map>
 
 std::vector<int> dateParts{};
-
-
 
 Date::Date(int day, int month, int year)
 {
@@ -17,6 +16,25 @@ Date::Date(std::string date)
 {
     splitDate(date);
     JDate = DateToJD(dateParts[0], dateParts[1], dateParts[2]);
+}
+
+Date::Date(int day, std::string month, int year)
+{
+    std::map<std::string, int> strMonth{
+    {"Январь", 1},
+    {"Февраль", 2},
+    {"Март", 3},
+    {"Апрель", 4},
+    {"Май", 5},
+    {"Июнь", 6},
+    {"Июль", 7},
+    {"Август", 8},
+    {"Сентябрь", 9},
+    {"Октябрь", 10},
+    {"Ноябрь", 11},
+    {"Декабрь", 12}
+    };
+    JDate = DateToJD(day, strMonth[month], year);
 }
 
 Date::~Date()
