@@ -1,0 +1,42 @@
+#pragma once
+
+#include <iostream>
+#include <string>
+#include <exception>
+
+
+class Date
+{
+public:
+	Date(int day, int month, int year);
+	Date(std::string date);
+	~Date();
+
+	double JDate = 0;
+
+	double DateToJD(int date, int month, int year);
+	void JDToDate(double JDate);
+	std::string weekDay();
+
+	double operator-(const Date& other);
+
+	friend std::ostream& operator<<(std::ostream& os, const Date& date);
+
+private:
+	void splitDate(std::string date);
+	void checkDate(int day, int month, int year);
+};
+
+
+class DateException : public std::exception
+{
+public:
+	DateException(const char* message) : m_message(message){}
+
+	const char* what() const noexcept override
+	{
+		return m_message;
+	}
+private:
+	const char* m_message;
+};
