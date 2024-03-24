@@ -12,7 +12,7 @@ private:
     int size, capacity;
 
 public:
-    // Конструкторы и деструктор
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РґРµСЃС‚СЂСѓРєС‚РѕСЂ
     explicit Array(int startCapacity = DEFAULT_CAPACITY) {
         if (startCapacity <= 0)
             capacity = DEFAULT_CAPACITY;
@@ -26,7 +26,7 @@ public:
         delete[] ptr;
     }
 
-    // Конструктор копирования
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
     Array(const Array& arr) {
         ptr = new T[arr.capacity];
         size = arr.size;
@@ -35,7 +35,7 @@ public:
             ptr[i] = arr.ptr[i];
     }
 
-    // Оператор присваивания
+    // РћРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
     Array& operator=(const Array& arr) {
         if (this == &arr)
             return *this;
@@ -50,7 +50,7 @@ public:
         return *this;
     }
 
-    // Оператор индексации
+    // РћРїРµСЂР°С‚РѕСЂ РёРЅРґРµРєСЃР°С†РёРё
     T& operator[](int index) {
         if (index >= size || index < 0)
             throw ArrayException();
@@ -58,7 +58,7 @@ public:
             return ptr[index];
     }
 
-    // Вставка элемента по указанному индексу
+    // Р’СЃС‚Р°РІРєР° СЌР»РµРјРµРЅС‚Р° РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ РёРЅРґРµРєСЃСѓ
     void insert(T elem, int index) {
         if (index < 0 || index > size)
             throw ArrayException();
@@ -70,12 +70,12 @@ public:
         ptr[index] = elem;
     }
 
-    // Вставка элемента в конец массива
+    // Р’СЃС‚Р°РІРєР° СЌР»РµРјРµРЅС‚Р° РІ РєРѕРЅРµС† РјР°СЃСЃРёРІР°
     void insert(T elem) {
         insert(elem, size);
     }
 
-    // Увеличение ёмкости массива
+    // РЈРІРµР»РёС‡РµРЅРёРµ С‘РјРєРѕСЃС‚Рё РјР°СЃСЃРёРІР°
     void increaseCapacity(int newCapacity) {
         capacity = newCapacity < capacity * 2 ? capacity * 2 : newCapacity;
         T* newPtr = new T[capacity];
@@ -85,7 +85,7 @@ public:
         ptr = newPtr;
     }
 
-    // Удаление элемента по указанному индексу
+    // РЈРґР°Р»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ РёРЅРґРµРєСЃСѓ
     void remove(int index) {
         if (index < 0 || index >= size)
             throw ArrayException();
@@ -95,7 +95,7 @@ public:
         size--;
     }
 
-    // Получение элемента по указанному индексу
+    // РџРѕР»СѓС‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ РёРЅРґРµРєСЃСѓ
     T get(int index) const {
         if (index >= size || index < 0)
             throw ArrayException();
@@ -103,7 +103,7 @@ public:
             return ptr[index];
     }
 
-    // Установка элемента по указанному индексу
+    // РЈСЃС‚Р°РЅРѕРІРєР° СЌР»РµРјРµРЅС‚Р° РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ РёРЅРґРµРєСЃСѓ
     void set(int index, T elem) {
         if (index >= size || index < 0)
             throw ArrayException();
@@ -111,42 +111,42 @@ public:
             ptr[index] = elem;
     }
 
-    // Получение текущего размера массива
+    // РџРѕР»СѓС‡РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ СЂР°Р·РјРµСЂР° РјР°СЃСЃРёРІР°
     int getSize() const {
         return size;
     }
 
-    // Получение текущей ёмкости массива
+    // РџРѕР»СѓС‡РµРЅРёРµ С‚РµРєСѓС‰РµР№ С‘РјРєРѕСЃС‚Рё РјР°СЃСЃРёРІР°
     int getCapacity() const {
         return capacity;
     }
 
-    // Получение максимально возможного размера массива
+    // РџРѕР»СѓС‡РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРѕР·РјРѕР¶РЅРѕРіРѕ СЂР°Р·РјРµСЂР° РјР°СЃСЃРёРІР°
     int max_size() const {
         return INT_MAX;
     }
 
-    // Дружественная функция для вывода элементов массива
+    // Р”СЂСѓР¶РµСЃС‚РІРµРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РІРѕРґР° СЌР»РµРјРµРЅС‚РѕРІ РјР°СЃСЃРёРІР°
     friend std::ostream& operator<<(std::ostream& out, const Array& arr) {
-        out << "Общий размер: " << arr.size << std::endl;
+        out << "РћР±С‰РёР№ СЂР°Р·РјРµСЂ: " << arr.size << std::endl;
         for (int i = 0; i < arr.size; i++)
             out << arr.ptr[i] << std::endl;
         return out;
     }
 
-    // Очистка массива и сброс его размера и ёмкости на ноль
+    // РћС‡РёСЃС‚РєР° РјР°СЃСЃРёРІР° Рё СЃР±СЂРѕСЃ РµРіРѕ СЂР°Р·РјРµСЂР° Рё С‘РјРєРѕСЃС‚Рё РЅР° РЅРѕР»СЊ
     void clear() {
         delete[] ptr;
         size = 0;
         capacity = 0;
     }
 
-    // Проверка, пуст ли массив
+    // РџСЂРѕРІРµСЂРєР°, РїСѓСЃС‚ Р»Рё РјР°СЃСЃРёРІ
     bool isEmpty() {
         return size == 0;
     }
 
-    // Удаление последнего элемента в массиве
+    // РЈРґР°Р»РµРЅРёРµ РїРѕСЃР»РµРґРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° РІ РјР°СЃСЃРёРІРµ
     void pop_back() {
         if (size > 0) {
             remove(size - 1);
