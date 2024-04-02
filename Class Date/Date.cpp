@@ -9,12 +9,14 @@ std::vector<int> dateParts{};
 
 Date::Date(int day, int month, int year)
 {
+    currantYear = year;
     JDate = DateToJD(day, month, year);
 }
 
 Date::Date(std::string date)
 {
     splitDate(date);
+    currantYear = dateParts[2];
     JDate = DateToJD(dateParts[0], dateParts[1], dateParts[2]);
 }
 
@@ -35,6 +37,7 @@ Date::Date(int day, std::string month, int year)
     {"Декабрь", 12}
     };
     JDate = DateToJD(day, strMonth[month], year);
+    currantYear = year;
 }
 
 Date::~Date()
@@ -90,6 +93,27 @@ std::string Date::weekDay()
 {
     std::string daysOfweek[]{ "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
     return daysOfweek[static_cast<int>(JDate + 0.5) % 7];
+}
+
+void Date::calculateEasterDate()
+{
+    int year = currantYear;
+    int a = year % 19;
+    int b = year / 100;
+    int c = year % 100;
+    int d = b / 4;
+    int e = b % 4;
+    int f = (b + 8) / 25;
+    int g = (b - f + 1) / 3;
+    int h = (19 * a + b - d - g + 15) % 30;
+    int i = c / 4;
+    int k = c % 4;
+    int l = (32 + 2 * e + 2 * i - h - k) % 7;
+    int m = (a + 11 * h + 22 * l) / 451;
+    int month = (h + l - 7 * m + 114) / 31;
+    int day = ((h + l - 7 * m + 114) % 31) + 1;
+
+    std::cout << "Дата Пасхи для текущего года: " << day << "." << month << "." << year << std::endl;
 }
 
 void Date::splitDate(std::string date)
