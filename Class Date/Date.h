@@ -13,17 +13,19 @@ public:
 	Date(int day, std::string month, int year);
 	~Date();
 
-	double JDate = 0;
-
 	double DateToJD(int date, int month, int year);
 	void JDToDate(double JDate);
 	std::string weekDay();
+	void calculateEasterDate();
 
 	double operator-(const Date& other);
 
 	friend std::ostream& operator<<(std::ostream& os, const Date& date);
 
 private:
+	int currantYear = 1912;
+    	double JDate = 0;
+
 	void splitDate(std::string date);
 	void checkDate(int day, int month, int year);
 };
