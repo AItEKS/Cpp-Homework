@@ -16,4 +16,10 @@ int main()
     std::cout << "День недели первой даты: " << a.weekDay() << std::endl;
     std::cout << "День недели второй даты: " << b.weekDay() << std::endl;
     std::cout << "День недели третьей даты: " << c.weekDay() << std::endl;
+
+    a.calculateEasterDate();
+    b.calculateEasterDate();
+    c.calculateEasterDate();
+
+    return 0;
 }
