@@ -4,6 +4,8 @@
 #include <sstream>
 #include <string>
 #include <chrono>
+#include <cmath>
+#include <iomanip>
 
 bool checkSubstr(const std::string& str, const std::string& substr) {
     return str.find(substr) != std::string::npos;
@@ -15,7 +17,6 @@ struct MoonData {
     double T, R, El, Az, FI, LG;
 };
 
-
 MoonData processMoonData(const std::string& input) {
     std::istringstream iss(input);
     MoonData data;
@@ -23,6 +24,26 @@ MoonData processMoonData(const std::string& input) {
     iss >> data.YMD >> data.HMS >> data.T >> data.R >> data.El >> data.Az >> data.FI >> data.LG;
 
     return data;
+}
+
+std::string calculateTime(const std::string& hms, double timeDiff) {
+    int hours = std::stoi(hms.substr(0, 2));
+    int minutes = std::stoi(hms.substr(2, 2));
+    int seconds = std::stoi(hms.substr(4, 2));
+
+    int totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    totalSeconds += static_cast<int>(round(timeDiff));
+
+    hours = totalSeconds / 3600;
+    minutes = (totalSeconds % 3600) / 60;
+    seconds = totalSeconds % 60;
+
+    std::ostringstream oss;
+    oss << std::setw(2) << std::setfill('0') << hours << ":"
+        << std::setw(2) << std::setfill('0') << minutes << ":"
+        << std::setw(2) << std::setfill('0') << seconds;
+
+    return oss.str();
 }
 
 void DataStrBreak(std::string input) {
@@ -54,16 +75,22 @@ int main() {
 
     double maxAngle = 0;
     std::string time;
-    for(int i = 0; i < lines.size() - 1; i++) {
+    double angularVelocity = 13.176397;
+
+    for (int i = 0; i < lines.size() - 1; i++) {
         MoonData prev = processMoonData(lines[i]);
         MoonData next = processMoonData(lines[i + 1]);
 
         if (prev.El < 0 && next.El > 0) {
-            std::cout << "Восход: "; DataStrBreak(next.HMS);
+            double timeDiff = std::abs(prev.El) / (angularVelocity / 24 / 3600);
+            std::string moonriseTime = calculateTime(prev.HMS, timeDiff);
+            std::cout << "Восход: " << moonriseTime << std::endl;
         }
 
         if (prev.El > 0 && next.El < 0) {
-            std::cout << "Закат: "; DataStrBreak(next.HMS);
+            double timeDiff = prev.El / (angularVelocity / 24 / 3600);
+            std::string moonsetTime = calculateTime(prev.HMS, timeDiff);
+            std::cout << "Закат: " << moonsetTime << std::endl;
         }
 
         if (prev.El > maxAngle) {
@@ -77,7 +104,7 @@ int main() {
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
-    std::cout << "Time taken by the program: " << elapsed.count();
+    std::cout << "Время работы программы: " << elapsed.count() << " секунд" << std::endl;
 
     return 0;
 }
