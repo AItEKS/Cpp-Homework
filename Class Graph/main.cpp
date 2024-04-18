@@ -1,39 +1,45 @@
-#include "Graph.h"
-#include "BFS.h"
-#include "DFS.h"
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include "Graph.h"
+#include "Node.h"
+#include "BFS.h"
+#include <filesystem>
+
+void separateConnectedComponents(const Graph& graph) {
+    std::set<const Node*> visited;
+    int componentIndex = 1;
+
+    std::filesystem::create_directory("Answer");
+
+    for (const Node* node : graph) {
+        if (visited.find(node) == visited.end()) {
+            std::ofstream outFile("Answer/Component_" + std::to_string(componentIndex) + ".txt");
+            std::queue<const Node*> queue;
+            queue.push(node);
+
+            while (!queue.empty()) {
+                const Node* current = queue.front();
+                queue.pop();
+
+                if (visited.find(current) == visited.end()) {
+                    visited.insert(current);
+                    outFile << current->getName() << std::endl;
+
+                    for (auto neighbor = current->nb_begin(); neighbor != current->nb_end(); ++neighbor) {
+                        queue.push(*neighbor);
+                    }
+                }
+            }
+
+            componentIndex++;
+            outFile.close();
+        }
+    }
+}
 
 int main() {
-    Node* nodeA = new Node("A");
-    Node* nodeB = new Node("B");
-    Node* nodeC = new Node("C");
-    Node* nodeD = new Node("D");
-    Node* nodeE = new Node("E");
-
-    Graph graph;
-    graph.addNode(nodeA);
-    graph.addNode(nodeB);
-    graph.addNode(nodeC);
-    graph.addNode(nodeD);
-    graph.addNode(nodeE);
-
-    graph.addEdge(nodeA, nodeB);
-    graph.addEdge(nodeB, nodeC);
-    graph.addEdge(nodeC, nodeD);
-
-    BFS bfs(graph, nodeA);
-    std::cout << "BFS: A to D connected? " << (bfs.connected(nodeD) ? "Yes" : "No") << std::endl;
-    std::cout << "BFS: A to E connected? " << (bfs.connected(nodeE) ? "Yes" : "No") << std::endl;
-
-    DFS dfs(graph);
-    std::cout << "DFS: A to D connected? " << (dfs.connected(nodeA, nodeD) ? "Yes" : "No") << std::endl;
-    std::cout << "DFS: A to E connected? " << (dfs.connected(nodeA, nodeE) ? "Yes" : "No") << std::endl;
-
-    delete nodeA;
-    delete nodeB;
-    delete nodeC;
-    delete nodeD;
-    delete nodeE;
-
+    Graph graph("1000.csv");
+    separateConnectedComponents(graph);
     return 0;
 }
