@@ -1,6 +1,35 @@
+#include <iostream>
+#include <fstream>
+#include <set>
+#include <queue>
+#include <sstream>
+#include "Node.h"
 #include "Graph.h"
 
 Graph::Graph() {}
+
+Graph::Graph(const char* file_name) {
+    std::ifstream file(file_name);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file." << std::endl;
+        return;
+    }
+
+    int source, target;
+    while (file >> source >> target) {
+        Node* sourceNode = getNodeOrCreate(source);
+        Node* targetNode = getNodeOrCreate(target);
+        addEdge(sourceNode, targetNode);
+    }
+
+    file.close();
+}
+
+Graph::~Graph() {
+    for (Node* node : nodes) {
+        delete node;
+    }
+}
 
 void Graph::addNode(Node* node) {
     nodes.insert(node);
@@ -54,4 +83,17 @@ const Node* Graph::binarySearch(const std::string& name) const {
         }
     }
     return nullptr;
+}
+
+Node* Graph::getNodeOrCreate(int nodeId) {
+    const std::string nodeName = std::to_string(nodeId);
+    const Node* existingNode = binarySearch(nodeName);
+    if (existingNode) {
+        return const_cast<Node*>(existingNode);
+    }
+    else {
+        Node* newNode = new Node(nodeName);
+        addNode(newNode);
+        return newNode;
+    }
 }
