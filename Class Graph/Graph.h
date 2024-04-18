@@ -15,5 +15,5 @@ public:
     void removeEdge(Node* begin, Node* end);
     std::set<Node*>::const_iterator begin() const;
     std::set<Node*>::const_iterator end() const;
-    Node* binarySearch(const std::string& name) const;
+    const Node* binarySearch(const std::string& name) const;
 };
