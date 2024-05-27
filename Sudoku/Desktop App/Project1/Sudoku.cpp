@@ -1,6 +1,6 @@
 #include "Sudoku.h"
 
-// Конструктор класса Sudoku
+// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР° Sudoku
 Sudoku::Sudoku(int K)
 {
     this->K = K;
@@ -8,14 +8,14 @@ Sudoku::Sudoku(int K)
     SRN = (int)SRNd;
     mat = new int* [N];
 
-    // Инициализация матрицы судоку
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РјР°С‚СЂРёС†С‹ СЃСѓРґРѕРєСѓ
     for (int i = 0; i < N; i++) {
         mat[i] = new int[N];
         memset(mat[i], 0, N * sizeof(int));
     }
 }
 
-// Конструктор класса Sudoku
+// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР° Sudoku
 Sudoku::Sudoku(int* val)
 {
     this->N = 9;
@@ -24,29 +24,29 @@ Sudoku::Sudoku(int* val)
     this->SRN = (int)SRNd;
     this->mat = new int* [N];
 
-    // Инициализация матрицы судоку
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РјР°С‚СЂРёС†С‹ СЃСѓРґРѕРєСѓ
     for (int i = 0; i < N; i++) {
         this->mat[i] = new int[N];
     }
 
-    // Заполнение матрицы судоку значениями из одномерного массива
+    // Р—Р°РїРѕР»РЅРµРЅРёРµ РјР°С‚СЂРёС†С‹ СЃСѓРґРѕРєСѓ Р·РЅР°С‡РµРЅРёСЏРјРё РёР· РѕРґРЅРѕРјРµСЂРЅРѕРіРѕ РјР°СЃСЃРёРІР°
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             try {
                 this->mat[i][j] = val[i * N + j];
                 if (this->mat[i][j] < 0 || this->mat[i][j] > 9) {
-                    throw std::invalid_argument("Значение должно быть от 0 до 9");
+                    throw std::invalid_argument("Р—РЅР°С‡РµРЅРёРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РѕС‚ 0 РґРѕ 9");
                 }
             }
             catch (const std::invalid_argument& e) {
-                std::cerr << "Ошибка: " << e.what() << std::endl;
+                std::cerr << "РћС€РёР±РєР°: " << e.what() << std::endl;
                 this->mat[i][j] = 0;
             }
         }
     }
 }
 
-// Метод для заполнения значений в судоку
+// РњРµС‚РѕРґ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ Р·РЅР°С‡РµРЅРёР№ РІ СЃСѓРґРѕРєСѓ
 void Sudoku::fillValues()
 {
     fillDiagonal();
@@ -54,7 +54,7 @@ void Sudoku::fillValues()
     removeKDigits();
 }
 
-// Метод для заполнения диагональных блоков судоку
+// РњРµС‚РѕРґ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РґРёР°РіРѕРЅР°Р»СЊРЅС‹С… Р±Р»РѕРєРѕРІ СЃСѓРґРѕРєСѓ
 void Sudoku::fillDiagonal()
 {
     for (int i = 0; i < N; i = i + SRN) {
@@ -62,7 +62,7 @@ void Sudoku::fillDiagonal()
     }
 }
 
-// Проверка, не используется ли число num в определенном блоке
+// РџСЂРѕРІРµСЂРєР°, РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р»Рё С‡РёСЃР»Рѕ num РІ РѕРїСЂРµРґРµР»РµРЅРЅРѕРј Р±Р»РѕРєРµ
 bool Sudoku::unUsedInBox(int rowStart, int colStart, int num)
 {
     for (int i = 0; i < SRN; i++) {
@@ -75,7 +75,7 @@ bool Sudoku::unUsedInBox(int rowStart, int colStart, int num)
     return true;
 }
 
-// Заполнение 3x3 блока судоку
+// Р—Р°РїРѕР»РЅРµРЅРёРµ 3x3 Р±Р»РѕРєР° СЃСѓРґРѕРєСѓ
 void Sudoku::fillBox(int row, int col)
 {
     int num;
@@ -89,7 +89,7 @@ void Sudoku::fillBox(int row, int col)
     }
 }
 
-// Генератор случайных чисел
+// Р“РµРЅРµСЂР°С‚РѕСЂ СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
 int Sudoku::randomGenerator(int num)
 {
     std::random_device rd;
@@ -98,13 +98,13 @@ int Sudoku::randomGenerator(int num)
     return distrib(gen);
 }
 
-// Проверка, безопасно ли поместить число в ячейку
+// РџСЂРѕРІРµСЂРєР°, Р±РµР·РѕРїР°СЃРЅРѕ Р»Рё РїРѕРјРµСЃС‚РёС‚СЊ С‡РёСЃР»Рѕ РІ СЏС‡РµР№РєСѓ
 bool Sudoku::CheckIfSafe(int i, int j, int num)
 {
     return (unUsedInRow(i, num) && unUsedInCol(j, num) && unUsedInBox(i - i % SRN, j - j % SRN, num));
 }
 
-// Проверка, не используется ли число num в строке
+// РџСЂРѕРІРµСЂРєР°, РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р»Рё С‡РёСЃР»Рѕ num РІ СЃС‚СЂРѕРєРµ
 bool Sudoku::unUsedInRow(int i, int num)
 {
     for (int j = 0; j < N; j++) {
@@ -115,7 +115,7 @@ bool Sudoku::unUsedInRow(int i, int num)
     return true;
 }
 
-// Проверка, не используется ли число num в столбце
+// РџСЂРѕРІРµСЂРєР°, РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р»Рё С‡РёСЃР»Рѕ num РІ СЃС‚РѕР»Р±С†Рµ
 bool Sudoku::unUsedInCol(int j, int num)
 {
     for (int i = 0; i < N; i++) {
@@ -126,7 +126,7 @@ bool Sudoku::unUsedInCol(int j, int num)
     return true;
 }
 
-// Рекурсивная функция для заполнения оставшейся части судоку
+// Р РµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РѕСЃС‚Р°РІС€РµР№СЃСЏ С‡Р°СЃС‚Рё СЃСѓРґРѕРєСѓ
 bool Sudoku::fillRemaining(int i, int j)
 {
     if (j >= N && i < N - 1) {
@@ -167,7 +167,7 @@ bool Sudoku::fillRemaining(int i, int j)
     return false;
 }
 
-// Удаление K чисел из судоку
+// РЈРґР°Р»РµРЅРёРµ K С‡РёСЃРµР» РёР· СЃСѓРґРѕРєСѓ
 void Sudoku::removeKDigits()
 {
     int count = K;
@@ -182,7 +182,7 @@ void Sudoku::removeKDigits()
     }
 }
 
-// Вывод судоку
+// Р’С‹РІРѕРґ СЃСѓРґРѕРєСѓ
 void Sudoku::printSudoku()
 {
     for (int i = 0; i < N; i++) {
@@ -195,13 +195,13 @@ void Sudoku::printSudoku()
 }
 
 
-// Метод для решения судоку
+// РњРµС‚РѕРґ РґР»СЏ СЂРµС€РµРЅРёСЏ СЃСѓРґРѕРєСѓ
 bool Sudoku::solveSudoku()
 {
     return solveUtil(0, 0);
 }
 
-// Вспомогательная рекурсивная функция для решения судоку
+// Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ СЂРµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂРµС€РµРЅРёСЏ СЃСѓРґРѕРєСѓ
 bool Sudoku::solveUtil(int i, int j)
 {
     if (i == N) {
@@ -225,7 +225,7 @@ bool Sudoku::solveUtil(int i, int j)
     return false;
 }
 
-// Метод для получения массива значений
+// РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РјР°СЃСЃРёРІР° Р·РЅР°С‡РµРЅРёР№
 int** Sudoku::getValues()
 {
     return mat;
